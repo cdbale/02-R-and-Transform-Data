@@ -1,0 +1,352 @@
+---
+title: "R and Transforming Data"
+subtitle: "MKTG 411 Marketing Analytics"
+output: 
+  ioslides_presentation:
+    widescreen: true
+    css: ../style.css
+---
+
+## Marketing Analytics Process
+
+<center>
+![](../../Figures/process_transform.png){width=900px}
+</center>
+
+---
+
+![](../../Figures/hex_dplyr.png){width=500px}
+
+##  Let's Get Set Up With R/RStudio
+
+<center>
+![](../../Figures/r_rstudio.png){width=900px}
+</center>
+
+## R/RStudio Orientation
+
+- Console: Where you run code and perform calculations.
+
+```{r}
+#| eval: false
+5 + 5
+```
+
+- Source: Create and **save** R scripts and send code to the Console.
+
+```{r}
+#| eval: false
+# Use comments to explain (the why of) your code.
+print(2 * (18 - 7))
+```
+
+- Environment: A snapshot of what you have loaded.
+- Help: Look up documentation including cheatsheets.
+- Files: The **working directory** for your project.
+
+## RStudio Tools > Global Options
+
+- General > Save workspace to .RData on exit: Never.
+- Code > Editing > Execution > Ctrl + Enter executes: Multiple consecutive R lines.
+- Code > Editing > Use native pipe operator.
+- Code > Display > General > Highlight selected line.
+- Code > Display > General > Rainbow parentheses.
+- Code > Saving > Automatically save when editor loses focus.
+- Appearance.
+
+## Functions
+
+<center>
+![](../../Figures/functions.png){width=650px}
+</center>
+
+We import, wrangle, visualize, and model data using **functions**. Functions are composed of **arguments** that tell the function how to operate.
+
+- Using a function is referred to as a “call” or a “function call.”
+- Don’t forget you have Help.
+
+## The tidyverse
+
+The **tidyverse** is a collection of R packages that share common philosophies and are designed to work together. An **R package** is a collection of functions, documentation, and sometimes data.
+
+```{r}
+library(tidyverse)
+```
+
+## Import CSV Files
+
+```{r eval=FALSE}
+customer_data <- read_csv("customer_data.csv")
+```
+
+```{r echo=FALSE}
+customer_data <- read_csv(here::here("Data", "customer_data.csv"))
+```
+
+---
+
+- Note that `customer_data` now appears in our Environment.
+- The Environment lists any **objects** (i.e., data or custom functions) we've assigned a name using `<-`.
+- We can also view objects in their own tab.
+
+## Data Frames
+
+```{r}
+customer_data
+```
+
+---
+
+```{r}
+glimpse(customer_data)
+```
+
+## Transform Data
+
+The heart of data wrangling is **transforming data**.
+
+- Filter observations.
+- Arrange observations.
+- Slice observations.
+- Select variables.
+- Mutate variables (i.e., recode or create new variables).
+- Join data frames.
+
+{dplyr} provides a consistent **grammar for transforming data** with functions (a.k.a., **verbs**) that mirror SQL.
+
+---
+
+<center>
+![](../../Figures/monsters_filter.png){width=900px}
+</center>
+
+## Filter Observations
+
+We often want to filter our data to **keep certain observations using column values**.
+
+```{r}
+filter(customer_data, college_degree == "Yes")
+```
+
+---
+
+```{r}
+filter(customer_data, region != "West")
+```
+
+---
+
+How would we filter by `gender == "Female"` and `income > 70000`?
+
+Why are we putting quotes around `"Female"` but not `gender`?
+
+---
+
+```{r}
+filter(customer_data, gender == "Female", income > 70000)
+```
+
+## Slice Observations
+
+Sometimes we want to slice our data to **keep certain observations using their position in the data**.
+
+```{r}
+slice(customer_data, 1:5)
+```
+
+## Arrange Observations
+
+We can arrange observations to reveal helpful information and check data.
+
+```{r}
+arrange(customer_data, birth_year)
+```
+
+---
+
+```{r}
+arrange(customer_data, desc(birth_year))
+```
+
+## Select Variables
+
+Sometimes we only care to **keep certain variables**, especially when working with a large dataset.
+
+```{r}
+select(customer_data, region:review_text)
+```
+
+---
+
+<center>
+![](../../Figures/monsters_mutate.png){width=600px}
+</center>
+
+## Mutate Variables
+
+We can also **recode existing variables** or **create new variables**.
+
+```{r}
+mutate(customer_data, income = income / 1000)
+```
+
+---
+
+Two important things to remember:
+
+1. We can **overwrite** variables in a data frame as well as objects if we use the same name.
+2. Good variable and object names only use lowercase letters, numbers, and `_`. For example: `good_name2` and `2bad name`. Bad names should be renamed (but can be referenced if surrounded with `" "`).
+
+## Join Data Frames
+
+A common variable (e.g., an ID) allows us to **join** two data frames.
+
+```{r eval=FALSE}
+store_transactions <- read_csv("store_transactions.csv")
+```
+
+```{r echo=FALSE}
+store_transactions <- read_csv(here::here("Data", "store_transactions.csv"))
+```
+
+---
+
+```{r}
+glimpse(store_transactions)
+```
+
+---
+
+A **left join** keeps all rows in the "left" data frame plus all columns from both data frames. A left join is a good "default" join to start with.
+
+```{r}
+left_join(customer_data, store_transactions, join_by(customer_id))
+```
+
+---
+
+<center>
+![](../../Figures/left_join.gif){width=500px}
+</center>
+
+---
+
+An **inner join** keeps rows that have matching IDs along with all columns from both data frames.
+
+```{r}
+inner_join(customer_data, store_transactions, join_by(customer_id))
+```
+
+---
+
+<center>
+![](../../Figures/inner_join.gif){width=500px}
+</center>
+
+## Consecutive Function Calls
+
+We typically want to perform many consecutive function calls. You might be tempted to do the following. **Don't do this!**
+
+```{r}
+crm_data_2 <- left_join(customer_data, store_transactions, join_by(customer_id))
+crm_data_3 <- filter(crm_data_2, region == "West", feb_2005 == max(feb_2005))
+crm_data_4 <- mutate(crm_data_3, age = 2022 - birth_year)
+crm_data_5 <- select(crm_data_4, age, feb_2005)
+crm_data_6 <- arrange(crm_data_5, desc(age))
+crm_data_7 <- slice(crm_data_6, 1)
+
+crm_data_7
+```
+
+
+---
+
+This would be another way run the same code. **Don't do this either!**
+
+```{r}
+slice(
+  arrange(
+    select(
+      mutate(
+        filter(
+          left_join(
+            customer_data, store_transactions, join_by(customer_id)), 
+          region == "West", feb_2005 == max(feb_2005)
+        ), 
+      age = 2022 - birth_year), 
+    age, feb_2005), 
+  desc(age)), 
+1)
+```
+
+## Consecutive Lines of Code
+
+Part of the common philosophy for the tidyverse is that:
+
+- Each function should do one specific thing well.
+- Each function should have a data frame as an input and a data frame as an output.
+
+This allows us to `|>` together functions in **consecutive lines of code** so that it is easier for humans to read and less error-prone.
+
+---
+
+```{r}
+filter(customer_data, credit == 850, state == "WY")
+```
+
+```{r}
+customer_data |> 
+  filter(.data = _, credit == 850, state == "WY")
+```
+
+---
+
+- So what does the `|>` do?
+- What's the deal with the indented line after the `|>`?
+- Let's rewrite our terrible code using the `|>`.
+
+---
+
+Read `|>` as *then*. (If we need to use `<-`, we typically put it at the beginning.)
+
+```{r}
+customer_data |> 
+  left_join(store_transactions, join_by(customer_id)) |> 
+  filter(region == "West", feb_2005 == max(feb_2005)) |> 
+  mutate(age = 2023 - birth_year) |> 
+  select(age, feb_2005) |> 
+  arrange(desc(age)) |> 
+  slice(1)
+```
+
+## Wrapping Up
+
+*Summary*
+
+- Covered the basics of coding in R.
+- Practiced some essential functions for transforming data with {dplyr}.
+
+*Next Time*
+
+- Summarizing discrete data with {dplyr}.
+- Visualizing discrete data with {ggplot2}.
+
+*Supplementary Material*
+
+- *R for Data Science (2e)* Chapters 3, 4, and 5
+
+*Artwork by @allison_horst*
+
+## Exercise 2
+
+In RStudio on Posit Cloud, create a new R script, load the tidyverse, and import the data. Then, using the `|>` in consecutive lines of code, find the customers who have spent the most recently by doing the following.
+
+1. Join the `customer_data` and `store_transactions` data.
+2. Only keep customers in the `South`.
+3. Create a new variable `age` using `2023 - birth_year`.
+4. Only keep the variables `age`, `gender`, `income`, `credit`, `married`, `college_degree`, `region`, and `dec_2018`.
+5. Arrange the data in descending order based on `dec_2018` transactions.
+6. Keep the top 3 rows of data.
+7. Who appears to be purchasing the most items for this month in the South?
+8. Export the R script and upload to Canvas.
+
