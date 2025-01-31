@@ -4,23 +4,23 @@ subtitle: "MKTG 411 Marketing Analytics"
 output: 
   ioslides_presentation:
     widescreen: true
-    css: ../style.css
+    css: style.css
 ---
 
 ## Marketing Analytics Process
 
 <center>
-![](../../Figures/process_transform.png){width=900px}
+![](Figures/process_transform.png){width=900px}
 </center>
 
 ---
 
-![](../../Figures/hex_dplyr.png){width=500px}
+![](Figures/hex_dplyr.png){width=500px}
 
 ##  Let's Get Set Up With R/RStudio
 
 <center>
-![](../../Figures/r_rstudio.png){width=900px}
+![](Figures/r_rstudio.png){width=900px}
 </center>
 
 ## R/RStudio Orientation
@@ -57,7 +57,7 @@ print(2 * (18 - 7))
 ## Functions
 
 <center>
-![](../../Figures/functions.png){width=650px}
+![](Figures/functions.png){width=650px}
 </center>
 
 We import, wrangle, visualize, and model data using **functions**. Functions are composed of **arguments** that tell the function how to operate.
@@ -117,7 +117,7 @@ The heart of data wrangling is **transforming data**.
 ---
 
 <center>
-![](../../Figures/monsters_filter.png){width=900px}
+![](Figures/monsters_filter.png){width=900px}
 </center>
 
 ## Filter Observations
@@ -179,7 +179,7 @@ select(customer_data, region:review_text)
 ---
 
 <center>
-![](../../Figures/monsters_mutate.png){width=600px}
+![](Figures/monsters_mutate.png){width=600px}
 </center>
 
 ## Mutate Variables
@@ -226,7 +226,7 @@ left_join(customer_data, store_transactions, join_by(customer_id))
 ---
 
 <center>
-![](../../Figures/left_join.gif){width=500px}
+![](Figures/left_join.gif){width=500px}
 </center>
 
 ---
@@ -240,7 +240,7 @@ inner_join(customer_data, store_transactions, join_by(customer_id))
 ---
 
 <center>
-![](../../Figures/inner_join.gif){width=500px}
+![](Figures/inner_join.gif){width=500px}
 </center>
 
 ## Consecutive Function Calls
