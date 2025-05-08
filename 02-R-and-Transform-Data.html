@@ -3235,11 +3235,11 @@ background-size: 100% 100%;
 <li>Source: Create and <strong>save</strong> R scripts and send code to the Console.</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'># Use comments to explain (the why of) your code.
+<pre class = 'prettyprint lang-r'># Use comments to explain the why of your code.
 print(2 * (18 - 7))</pre>
 
 <ul>
-<li>Environment: A snapshot of what you have loaded.</li>
+<li>Environment: A snapshot of the data, variables, and functions you've loaded.</li>
 <li>Help: Look up documentation including cheatsheets.</li>
 <li>Files: The <strong>working directory</strong> for your project.</li>
 </ul>
@@ -3376,7 +3376,7 @@ print(2 * (18 - 7))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Filter Observations</h2></hgroup><article  id="filter-observations">
 
-<p>We often want to filter our data to <strong>keep certain observations using column values</strong>.</p>
+<p>We often want to filter our data to <strong>keep certain observations based on column values</strong>.</p>
 
 <pre class = 'prettyprint lang-r'>filter(customer_data, college_degree == &quot;Yes&quot;)</pre>
 
@@ -3447,7 +3447,7 @@ print(2 * (18 - 7))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Slice Observations</h2></hgroup><article  id="slice-observations">
 
-<p>Sometimes we want to slice our data to <strong>keep certain observations using their position in the data</strong>.</p>
+<p>Sometimes we want to slice our data to <strong>keep certain observations based on their position in the data</strong>.</p>
 
 <pre class = 'prettyprint lang-r'>slice(customer_data, 1:5)</pre>
 
@@ -3569,7 +3569,7 @@ print(2 * (18 - 7))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Join Data Frames</h2></hgroup><article  id="join-data-frames">
 
-<p>A common variable (e.g., an ID) allows us to <strong>join</strong> two data frames.</p>
+<p>A common variable (e.g., a customer ID) allows us to <strong>join</strong> two data frames.</p>
 
 <pre class = 'prettyprint lang-r'>store_transactions &lt;- read_csv(&quot;store_transactions.csv&quot;)</pre>
 
@@ -3903,14 +3903,14 @@ crm_data_7</pre>
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
 
 <ul>
-<li>So what does the <code>|&gt;</code> do?</li>
+<li>So what does the <code>|&gt;</code> (pipe operator) do?</li>
 <li>What’s the deal with the indented line after the <code>|&gt;</code>?</li>
 <li>Let’s rewrite our terrible code using the <code>|&gt;</code>.</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
 
-<p>Read <code>|&gt;</code> as <em>then</em>. (If we need to use <code>&lt;-</code>, we typically put it at the beginning.)</p>
+<p>Read <code>|&gt;</code> as <em>"then"</em>. (If we need to use <code>&lt;-</code>, we typically put it at the beginning.)</p>
 
 <pre class = 'prettyprint lang-r'>customer_data |&gt; 
   left_join(store_transactions, join_by(customer_id)) |&gt; 
@@ -3956,11 +3956,11 @@ crm_data_7</pre>
 <ol>
 <li>Join the <code>customer_data</code> and <code>store_transactions</code> data.</li>
 <li>Only keep customers in the <code>South</code>.</li>
-<li>Create a new variable <code>age</code> using <code>2023 - birth_year</code>.</li>
+<li>Create a new variable <code>age</code> using <code>2026 - birth_year</code>.</li>
 <li>Only keep the variables <code>age</code>, <code>gender</code>, <code>income</code>, <code>credit</code>, <code>married</code>, <code>college_degree</code>, <code>region</code>, and <code>dec_2018</code>.</li>
 <li>Arrange the data in descending order based on <code>dec_2018</code> transactions.</li>
 <li>Keep the top 3 rows of data.</li>
-<li>Who appears to be purchasing the most items for this month in the South?</li>
+<li>Who appears to be purchasing the most items for that month in the South?</li>
 <li>Export the R script and upload to Canvas.</li>
 </ol></article></slide>
 
