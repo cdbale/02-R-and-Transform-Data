@@ -36,11 +36,11 @@ output:
 
 ```{r}
 #| eval: false
-# Use comments to explain (the why of) your code.
+# Use comments to explain the why of your code.
 print(2 * (18 - 7))
 ```
 
-- Environment: A snapshot of what you have loaded.
+- Environment: A snapshot of the data, variables, and functions you've loaded.
 - Help: Look up documentation including cheatsheets.
 - Files: The **working directory** for your project.
 
@@ -122,7 +122,7 @@ The heart of data wrangling is **transforming data**.
 
 ## Filter Observations
 
-We often want to filter our data to **keep certain observations using column values**.
+We often want to filter our data to **keep certain observations based on their values for a certain column**.
 
 ```{r}
 filter(customer_data, college_degree == "Yes")
@@ -148,7 +148,7 @@ filter(customer_data, gender == "Female", income > 70000)
 
 ## Slice Observations
 
-Sometimes we want to slice our data to **keep certain observations using their position in the data**.
+Sometimes we want to slice our data to **keep certain observations based on their position in the data**.
 
 ```{r}
 slice(customer_data, 1:5)
@@ -199,7 +199,7 @@ Two important things to remember:
 
 ## Join Data Frames
 
-A common variable (e.g., an ID) allows us to **join** two data frames.
+A common variable (e.g., a customer ID) allows us to **join** two data frames.
 
 ```{r eval=FALSE}
 store_transactions <- read_csv("store_transactions.csv")
@@ -301,19 +301,19 @@ customer_data |>
 
 ---
 
-- So what does the `|>` do?
+- So what does the `|>`, often known as the 'pipe operator' do?
 - What's the deal with the indented line after the `|>`?
 - Let's rewrite our terrible code using the `|>`.
 
 ---
 
-Read `|>` as *then*. (If we need to use `<-`, we typically put it at the beginning.)
+Read `|>` as *"then"*. (If we need to use `<-`, we typically put it at the beginning.)
 
 ```{r}
 customer_data |> 
   left_join(store_transactions, join_by(customer_id)) |> 
   filter(region == "West", feb_2005 == max(feb_2005)) |> 
-  mutate(age = 2023 - birth_year) |> 
+  mutate(age = 2026 - birth_year) |> 
   select(age, feb_2005) |> 
   arrange(desc(age)) |> 
   slice(1)
@@ -343,10 +343,10 @@ In RStudio on Posit Cloud, create a new R script, load the tidyverse, and import
 
 1. Join the `customer_data` and `store_transactions` data.
 2. Only keep customers in the `South`.
-3. Create a new variable `age` using `2023 - birth_year`.
+3. Create a new variable `age` using `2026 - birth_year`.
 4. Only keep the variables `age`, `gender`, `income`, `credit`, `married`, `college_degree`, `region`, and `dec_2018`.
 5. Arrange the data in descending order based on `dec_2018` transactions.
 6. Keep the top 3 rows of data.
-7. Who appears to be purchasing the most items for this month in the South?
+7. Who appears to be purchasing the most items for that month in the South?
 8. Export the R script and upload to Canvas.
 
