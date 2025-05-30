@@ -1,0 +1,205 @@
+---
+title: "02 R and Transform Data Starter Code"
+format: docx
+editor: visual
+---
+
+## Lecture 02 Notes
+
+### R/R Studio Orientation
+
+```{r}
+
+# Try copying and running this code in the Console.
+
+5+5
+```
+
+```{r}
+
+# This Quarto document is in your Source window. Try running this code chunk by pressing the green arrow.
+
+print(2 * (18 - 7))
+```
+
+```{r}
+
+# Try adding your own comment here and see if it changes the output at all.
+
+# 
+
+print(2 * (18 - 7))
+```
+
+```{r}
+
+# Try saving this variable to your Environment.
+
+variable = 100
+```
+
+```{r}
+
+# Seek Help with the 'mean' function.
+
+help(mean)
+```
+
+### The Tidyverse
+
+```{r}
+
+# Before runnning this code, you need to install the tidyverse package. Click Tools at the top of the screen, then Install Packages, and enter tidyverse. Then load the package here.
+
+library(tidyverse)
+```
+
+### Import CSV Files
+
+```{r}
+
+# Ensure that you're in the right working directory (folder). You should see customer_data.csv in your Files tab on the right.
+
+customer_data <- read_csv("customer_data.csv", show_col_types = FALSE)
+```
+
+### Data Frames
+
+```{r}
+
+# This code displays the data frame.
+
+customer_data
+```
+
+```{r}
+
+# This code gives us an overview of what our data looks like.
+
+glimpse(customer_data)
+```
+
+### Filter Observations
+
+```{r}
+
+# This code displays only customers with a college degree.
+
+filter(customer_data, college_degree == "Yes")
+```
+
+```{r}
+
+# This code displays only customers outside of the West region.
+
+filter(customer_data, region != "West")
+```
+
+```{r}
+
+# This code displays only female customers with an annual income of over $70,000.
+
+
+filter(customer_data, gender == "Female", income > 70000)
+```
+
+### Your Turn!
+
+```{r}
+
+# Write code that filters to only display married customers born before 1995.
+
+```
+
+### Slice Observations
+
+```{r}
+
+# This code displays only the first 5 customers in the data frame.
+
+
+slice(customer_data, 1:5)
+```
+
+### Arrange Observations
+
+```{r}
+
+# This code displays the customers in order of birth year.
+
+arrange(customer_data, birth_year)
+```
+
+```{r}
+
+# This code arranges them from youngest to oldest.
+
+arrange(customer_data, desc(birth_year))
+```
+
+### Select Variables
+
+```{r}
+
+# This code selects all the columns from region to review_text.
+
+select(customer_data, region:review_text)
+```
+
+### Mutate Variables
+
+```{r}
+
+# This code changes the income column to be in terms of 1000s of dollars.
+
+mutate(customer_data, income = income / 1000)
+```
+
+### Join Data Frames
+
+```{r}
+
+# This will read in the transaction data (again, ensure that you're in the right working directory)
+
+store_transactions <- read_csv("store_transactions.csv")
+```
+
+```{r}
+
+glimpse(store_transactions)
+```
+
+```{r}
+
+left_join(customer_data, store_transactions, join_by(customer_id))
+```
+
+```{r}
+
+inner_join(customer_data, store_transactions, join_by(customer_id))
+```
+
+### Consecutive Lines of Code
+
+```{r}
+
+# Try out the pipe operator!
+
+customer_data |> 
+  filter(credit == 850, state == "WY")
+```
+
+### Your Turn!
+
+```{r}
+
+# Add comments between each line to explain what this code is doing!
+
+customer_data |> 
+  left_join(store_transactions, join_by(customer_id)) |> 
+  filter(region == "West", feb_2005 == max(feb_2005)) |> 
+  mutate(age = 2026 - birth_year) |> 
+  select(age, feb_2005) |> 
+  arrange(desc(age)) |> 
+  slice(1)
+```

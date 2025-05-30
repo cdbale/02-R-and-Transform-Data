@@ -11,17 +11,25 @@ output:
 
 <center>
 ![](Figures/process_transform.png){width=900px}
-</center>
-
 ---
 
-![](Figures/hex_dplyr.png){width=500px}
+## Motivating Example
+
+Imagine you're working as an analyst for a large retail company like Patagonia and your manager gives you a messy spreadsheet exported from the CRM (Customer Relationship Management) system. The data includes names, locations, and demographic details for thousands of customers. She also sends you a huge file containing the transaction history for all the customers, but the only thing the two files have in common is the customer IDs. She asks you to find the 100 longest-standing customers, and figure out which 5 states brought in the most revenue last year. How would you do this? 
 
 ##  Let's Get Set Up With R/RStudio
 
 <center>
 ![](Figures/r_rstudio.png){width=900px}
 </center>
+
+## A Word About Downloading and Organizing Files
+
+One of the most important skills you should strive to develop is the ability to
+organize and manage files. Right now, create a MKTG-411 folder on your computer.
+Every file you download for this class should live in this folder. You should
+never be working out of your Downloads folder. Now, go download the folder for
+Lecture 1 from Canvas, and move it to your designated MKTG-411 folder.
 
 ## R/RStudio Orientation
 
@@ -32,7 +40,9 @@ output:
 5 + 5
 ```
 
-- Source: Create and **save** R scripts and send code to the Console.
+- Source: Create and **save** R scripts and send code to the Console. We will 
+also use lots of Quarto documents in this class, which allow you to write and 
+run code in chunks from the source window
 
 ```{r}
 #| eval: false
@@ -75,7 +85,7 @@ library(tidyverse)
 
 ## Import CSV Files
 
-```{r eval=FALSE}
+```{r}
 customer_data <- read_csv("customer_data.csv", show_col_types = FALSE)
 ```
 
@@ -142,6 +152,19 @@ Why are we putting quotes around `"Female"` but not `gender`?
 filter(customer_data, gender == "Female", income > 70000)
 ```
 
+## Your Turn!
+
+Write code that filters to only display married customers born before 1995.
+
+## Solution
+
+```{r}
+
+filter(customer_data, married == "Yes", birth_year < 1995)
+
+```
+
+
 ## Slice Observations
 
 Sometimes we want to slice our data to **keep certain observations based on their position in the data**.
@@ -191,18 +214,14 @@ mutate(customer_data, income = income / 1000)
 Two important things to remember:
 
 1. We can **overwrite** variables in a data frame as well as objects if we use the same name.
-2. Good variable and object names only use lowercase letters, numbers, and `_`. For example: `good_name2` and `2bad name`. Bad names should be renamed (but can be referenced if surrounded with `" "`).
+2. Good variable and object names only use lowercase letters, numbers, and `_`. Most importantly, they should be descriptive and easy to identify. A poor variable name might be something like "Variable2" or "x", whereas a good variable might be 'transaction_history' or 'cleaned_crm_data'.
 
 ## Join Data Frames
 
 A common variable (e.g., a customer ID) allows us to **join** two data frames.
 
-```{r eval=FALSE}
-store_transactions <- read_csv("store_transactions.csv")
-```
-
-```{r echo=FALSE}
-store_transactions <- read_csv(here::here("Data", "store_transactions.csv"))
+```{r}
+store_transactions <- read_csv("store_transactions.csv", show_col_types = FALSE)
 ```
 
 ---
@@ -213,7 +232,7 @@ glimpse(store_transactions)
 
 ---
 
-A **left join** keeps all rows in the "left" data frame plus all columns from both data frames. A left join is a good "default" join to start with.
+A **left join** keeps all rows in the "left" or first data frame that you list, and all columns from both data frames. A left join is a good "default" join to start with.
 
 ```{r}
 left_join(customer_data, store_transactions, join_by(customer_id))
@@ -292,7 +311,7 @@ filter(customer_data, credit == 850, state == "WY")
 
 ```{r}
 customer_data |> 
-  filter(.data = _, credit == 850, state == "WY")
+  filter( credit == 850, state == "WY")
 ```
 
 ---
@@ -300,12 +319,14 @@ customer_data |>
 - So what does the `|>`, often known as the 'pipe operator' do?
 - What's the deal with the indented line after the `|>`?
 - Let's rewrite our terrible code using the `|>`.
+- The shortcut to type the pipe operator is ctrl + shift + m (or command for mac)
 
 ---
 
 Read `|>` as *"then"*. (If we need to use `<-`, we typically put it at the beginning.)
 
 ```{r}
+
 customer_data |> 
   left_join(store_transactions, join_by(customer_id)) |> 
   filter(region == "West", feb_2005 == max(feb_2005)) |> 
@@ -314,6 +335,35 @@ customer_data |>
   arrange(desc(age)) |> 
   slice(1)
 ```
+
+## Your Turn!
+
+Try writing comments that explain what each line of this code is doing.
+
+```{r, eval= FALSE}
+
+customer_data |> 
+  left_join(store_transactions, join_by(customer_id)) |> 
+  filter(region == "West", feb_2005 == max(feb_2005)) |> 
+  mutate(age = 2026 - birth_year) |> 
+  select(age, feb_2005) |> 
+  arrange(desc(age)) |> 
+  slice(1)
+```
+
+## Instructions for Setting Up Your Own Quarto Docs
+
+In the future, all homework for this class will be submitted as Quarto documents that have been rendered into Word files. This is the same kind of file your starter code was in today.
+
+---
+
+To create one, click File > New File > Quarto Document. This box should pop up:
+
+<center>
+![](Figures/quarto.png){width=500px}
+<center>
+
+Just add the document title, your name, and select Word!
 
 ## Wrapping Up
 
@@ -335,7 +385,7 @@ customer_data |>
 
 ## Exercise 2
 
-In RStudio on Posit Cloud, create a new R script, load the tidyverse, and import the data. Then, using the `|>` in consecutive lines of code, find the customers who have spent the most recently by doing the following.
+In RStudio, create a new Quarto document, load the tidyverse, and import the data. Don't forget to ensure that a copy of your data files is in your working directory! Then, using the `|>` in consecutive lines of code, find the customers who have spent the most recently by doing the following.
 
 1. Join the `customer_data` and `store_transactions` data.
 2. Only keep customers in the `South`.
@@ -344,5 +394,5 @@ In RStudio on Posit Cloud, create a new R script, load the tidyverse, and import
 5. Arrange the data in descending order based on `dec_2018` transactions.
 6. Keep the top 3 rows of data.
 7. Who appears to be purchasing the most items for that month in the South?
-8. Export the R script and upload to Canvas.
+8. Render the Quarto document as a Word Doc and upload to Canvas.
 
