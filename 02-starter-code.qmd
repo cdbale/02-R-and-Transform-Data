@@ -203,3 +203,12 @@ customer_data |>
   arrange(desc(age)) |> 
   slice(1)
 ```
+
+### Live Coding Exercise
+
+Now that we've built up a lot of skills, let's try applying them together. Recall that you are an analyst for Patagonia. Imagine your manager wants a list of the 15 most valuable customers in the Midwest region. How should we define "valuable," and how would we come up with that list?
+
+```{r}
+
+# take notes and code along here
+```
