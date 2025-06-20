@@ -55,7 +55,13 @@ store_transactions <- read_csv("store_transactions.csv", show_col_types = FALSE)
 
 # Find the customers who have spent the most recently.
 
-customer_data |> left_join(store_transactions, join_by(customer_id)) |> filter(region == "South") |> mutate(age = 2024 - birth_year) |> select(age, gender:region, dec_2018) |> arrange(desc(dec_2018)) |> slice(1:3)
+customer_data |> 
+  left_join(store_transactions, join_by(customer_id)) |> 
+  filter(region == "South") |> 
+  mutate(age = 2024 - birth_year) |> 
+  select(age, gender:region, dec_2018) |> 
+  arrange(desc(dec_2018)) |> 
+  slice(1:3)
 ```
 
-Customers in the South who purchased the most in December 2018 appear to be mostly married with college degrees.
+Customers in the South who purchased the most in December 2018 appear to be mostly high income, married individuals with college degrees.

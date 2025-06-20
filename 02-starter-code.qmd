@@ -35,7 +35,7 @@ print(2 * (18 - 7))
 
 # Try saving this variable to your Environment.
 
-variable = 100
+variable <- 100
 ```
 
 ```{r}
