@@ -1,6 +1,6 @@
 ---
 title: "R and Transforming Data"
-subtitle: "MKTG 411 Marketing Analytics"
+subtitle: "MCB Consulting Group (MKTG 411)"
 output: 
   ioslides_presentation:
     widescreen: true
@@ -11,11 +11,10 @@ output:
 
 <center>
 ![](Figures/process_transform.png){width=900px}
----
 
 ## Motivating Example
 
-Imagine you're working as an analyst for a large retail company like Patagonia and your manager gives you a messy spreadsheet exported from the CRM (Customer Relationship Management) system. The data includes names, locations, and demographic details for thousands of customers. She also sends you a huge file containing the transaction history for all the customers, but the only thing the two files have in common is the customer IDs. She asks you to find the 100 longest-standing customers, and figure out which 5 states brought in the most revenue last year. How would you do this? 
+Imagine we are consulting Patagonia. They provide a messy spreadsheet exported from the CRM (Customer Relationship Management) system. The data includes names, locations, and demographic details for thousands of customers. They also send you a huge file containing the transaction history for all the customers, but the only thing the two files have in common is the customer IDs. You are asked to find the 100 longest-standing customers, and figure out which 5 states brought in the most revenue last year. How would you do this? 
 
 ##  Let's Get Set Up With R/RStudio
 
@@ -26,10 +25,12 @@ Imagine you're working as an analyst for a large retail company like Patagonia a
 ## A Word About Downloading and Organizing Files
 
 One of the most important skills you should strive to develop is the ability to
-organize and manage files. Right now, create a MKTG-411 folder on your computer.
-Every file you download for this class should live in this folder. You should
-never be working out of your Downloads folder. Now, go download the folder for
-Lecture 1 from Canvas, and move it to your designated MKTG-411 folder.
+organize and manage files! 
+
+- Create a MKTG-411 folder on your computer.
+- Every file you download for this class should live in this folder, organized by lecture 
+- **NEVER** work out of your Downloads folder.
+- Download the folder for Lecture 1 from Canvas, and move it to your MKTG-411 folder.
 
 ## R/RStudio Orientation
 
@@ -360,9 +361,8 @@ customer_data |>
 customer_data |> 
   left_join(store_transactions, join_by(customer_id)) |> 
   # join the transactions to the customer data using customer IDs
-  filter(region == "West")|> 
+  filter(region == "West", feb_2005 == max(feb_2005))|> 
   # filter to only customers from the West region
-  filter(feb_2005 == max(feb_2005)) |> 
   # filter to just the ones who had the most transactions in February 2005
   mutate(age = 2026 - birth_year) |>  
   # create a new column for age
@@ -390,7 +390,7 @@ Just add the document title, your name, and select Word!
 
 ## Live Coding
 
-Now that we've built up a lot of skills, let's try applying them together. Recall that you are an analyst for Patagonia. Imagine your manager wants a list of the 15 most valuable customers in the Midwest region. How should we define "valuable," and how would we come up with that list?
+Now that we've built up a lot of skills, let's try applying them together. Recall that you are consulting for Patagonia. Imagine the company wants a list of the 15 most valuable customers in the Midwest region. How should we define "valuable," and how would we come up with that list?
 
 ## Wrapping Up
 

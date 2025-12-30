@@ -58,7 +58,7 @@ store_transactions <- read_csv("store_transactions.csv", show_col_types = FALSE)
 customer_data |> 
   left_join(store_transactions, join_by(customer_id)) |> 
   filter(region == "South") |> 
-  mutate(age = 2024 - birth_year) |> 
+  mutate(age = 2026 - birth_year) |> 
   select(age, gender:region, dec_2018) |> 
   arrange(desc(dec_2018)) |> 
   slice(1:3)

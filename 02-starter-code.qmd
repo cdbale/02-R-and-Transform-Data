@@ -51,6 +51,10 @@ help(mean)
 
 # Before runnning this code, you need to install the tidyverse package. Click Tools at the top of the screen, then Install Packages, and enter tidyverse. Then load the package here.
 
+# OR
+
+#install.packages('tidyverse')
+
 library(tidyverse)
 ```
 
