@@ -22,15 +22,41 @@ Imagine we are consulting Patagonia. They provide a messy spreadsheet exported f
 ![](Figures/r_rstudio.png){width=900px}
 </center>
 
+## Computer Orientation
+
+R's performance is primarily based on your *available* **RAM** and secondarily on your **CPU**. In RStudio, the Environment uses RAM while Files gives you access to the **hard drive**.
+
+<center>
+![](Figures/computer_specs.png){width="850px"}
+</center>
+
+---
+
+The hard drive (i.e., hard disk) is used for:
+
+- Installing packages.
+- Writing and rendering files.
+
+RAM (i.e., random access memory) is used for:
+
+- Loading packages.
+- Importing, wrangling, visualizing, and modeling.
+
+## Files and Folders
+
+A hard drive is composed of **files** (e.g., .csv, .rds, .R, .qmd, .exe) organized into **folders**/**directories**. It is critical to organize your work.
+
+Every file on your computer has a kind of address called a **file path**.
+
 ## A Word About Downloading and Organizing Files
 
 One of the most important skills you should strive to develop is the ability to
 organize and manage files! 
 
 - Create a MKTG-411 folder on your computer.
-- Every file you download for this class should live in this folder, organized by lecture 
+- Every file you download for this class should live in this folder, organized by **Unit** and **lecture** 
 - **NEVER** work out of your Downloads folder.
-- Download the folder for Lecture 1 from Canvas, and move it to your MKTG-411 folder.
+- Download the data for the first Unit, and the items for Lectures 1 and 2 from Canvas, and move them **to their own folders** inside your MKTG-411 folder.
 
 ## R/RStudio Orientation
 
@@ -41,9 +67,8 @@ organize and manage files!
 5 + 5
 ```
 
-- Source: Create and **save** R scripts and send code to the Console. We will 
-also use lots of Quarto documents in this class, which allow you to write and 
-run code in chunks from the source window
+- We will use lots of Quarto documents in this class, which allow you to write and 
+run code in chunks from the source window.
 
 ```{r}
 #| eval: false
@@ -159,12 +184,19 @@ Write code that filters to only display married customers born before 1995.
 
 ## Solution
 
-```{r}
+```{r, echo = FALSE}
 
 filter(customer_data, married == "Yes", birth_year < 1995)
 
 ```
 
+## Code Solution
+
+```{r, eval=FALSE}
+
+filter(customer_data, married == "Yes", birth_year < 1995)
+
+```
 
 ## Slice Observations
 
@@ -277,7 +309,7 @@ crm_data_7
 
 ---
 
-This would be another way run the same code. **Don't do this either!**
+This would be another way to run the same code. **Don't do this either!**
 
 ```{r}
 slice(
@@ -312,7 +344,7 @@ filter(customer_data, credit == 850, state == "WY")
 
 ```{r}
 customer_data |> 
-  filter( credit == 850, state == "WY")
+  filter(credit == 850, state == "WY")
 ```
 
 ---
@@ -359,19 +391,19 @@ customer_data |>
 ```{r, eval= FALSE}
 
 customer_data |> 
-  left_join(store_transactions, join_by(customer_id)) |> 
   # join the transactions to the customer data using customer IDs
-  filter(region == "West", feb_2005 == max(feb_2005))|> 
+  left_join(store_transactions, join_by(customer_id)) |> 
   # filter to only customers from the West region
   # filter to just the ones who had the most transactions in February 2005
-  mutate(age = 2026 - birth_year) |>  
+  filter(region == "West", feb_2005 == max(feb_2005))|> 
   # create a new column for age
-  select(age, feb_2005) |> 
+  mutate(age = 2026 - birth_year) |>  
   # select only the age and February 2005 transactions
-  arrange(desc(age)) |> 
+  select(age, feb_2005) |> 
   # arrange the rows from oldest to youngest
-  slice(1) 
+  arrange(desc(age)) |> 
   # display only the first row
+  slice(1)
 ```
 
 ## Instructions for Setting Up Your Own Quarto Docs
