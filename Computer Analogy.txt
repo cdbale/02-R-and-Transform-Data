@@ -1,0 +1,22 @@
+Label bag as Hard drive
+Label hands as RAM
+Label head as CPU
+
+To students: this paper represents some data, your job is to "analyze" the data (i.e., you need to draw a circle on this sheet of paper, and cut it out).
+
+Pen and scissors exist on the internet (table out in space).
+
+Hard drive exists with a folder that has your data files.
+
+There will be some ground rules (i.e., things I can and can't do, but you'll figure that out by asking me to perform different actions).
+
+Here's what steps should be performed:
+
+- download the tools (packages) from the internet to the hard drive
+- bring the tools (packages) from the hard drive to the RAM
+- bring the paper from the internet to the hard drive
+- bring the specific piece of paper from the hard drive to the RAM
+- once the tools and paper are in the RAM, use the marker to draw a circle
+- then cut out the circle with the scissors
+- then put the circle back in the hard drive
+

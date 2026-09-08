@@ -1,0 +1,30 @@
+LECTURE 02 REMAINING WORK
+Updated September 8, 2026
+Completed implementation details and review history are in Chat Completed.
+
+Scope: 02-R-and-Transform-Data
+Canvas: MKTG 411-001: Marketing Analytics, 2026 Fall, course 38688.
+The assignment due-date tables also include section MKTG 411-002.
+Exercise 2: https://byu.instructure.com/courses/38688/assignments/1452124
+Grade Exercise 2: https://byu.instructure.com/courses/38688/assignments/1452142
+
+5. Resolve GitHub commit scope and complete the new push checklist item.
+   Branch/upstream: main -> origin/main.
+   Remote: https://github.com/cdbale/02-R-and-Transform-Data.git
+   Status: Blocked. The current sources include earlier uncommitted user edits
+   mixed with approved updates. Confirm whether the commit should include all
+   current source edits before staging. Word handouts still await visual QA.
+   Proposed source scope: 02 R and Transform Data.Rmd, 02-starter-code.qmd,
+   Exercise-02-Solution.qmd, Chat To Do, and Chat Completed.
+   No staging, commit, or push performed. After scope is resolved, inspect the
+   exact commit and remote state, then push and verify branch synchronization.
+
+CURRENT AUTHORIZATION - SEPTEMBER 8, 2026
+The user verified the files and explicitly authorized committing and pushing all
+repository changes. Prior scope and Word-review blockers above are resolved.
+Canvas description edits and all three file replacements are verified complete.
+Remaining action: commit all changes, push, and verify branch synchronization.
+
+USER REQUESTED CHANGES - ADD NEW REQUESTS HERE
+
+

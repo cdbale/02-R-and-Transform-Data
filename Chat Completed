@@ -1,0 +1,370 @@
+LECTURE 02 COMPLETED WORK
+Updated September 7, 2026
+
+Scope: 02-R-and-Transform-Data
+Canvas: MKTG 411-001: Marketing Analytics, 2026 Fall, course 38688.
+The assignment due-date tables also include section MKTG 411-002.
+Exercise 2: https://byu.instructure.com/courses/38688/assignments/1452124
+Grade Exercise 2: https://byu.instructure.com/courses/38688/assignments/1452142
+
+COMPLETED REQUESTS
+- Moved Today's Learning Goals immediately after the title, preserving wording.
+- Created Chat To Do and moved it into the lecture-specific repository.
+- Implemented and verified approved local source changes 1-4 below.
+- Rebuilt both Word handouts and verified their content against the QMD sources.
+  Visual layout verification remains open in Chat To Do.
+- Moved the Patagonia business-question slide immediately before The tidyverse,
+  preserving its wording. Original user request, preserved verbatim:
+
+- Move current slide 7 (Patagonia example) before current slide 17 (The tidyverse) to avoid interrupting RStudio orientation.
+
+COMPLETED SOURCE CHANGES - ORIGINAL REVIEW DETAILS
+Paths below are relative to 02-R-and-Transform-Data.
+The original proposed scope is retained for reference. Source edits, code
+checks, and Word rebuilds are complete; remaining visual QA is tracked in
+Chat To Do rather than treated as completed here.
+
+1. Make the filtering examples mean the same thing.
+   Targets: 02 R and Transform Data.Rmd, Consecutive Function Calls through
+   the commented Solution; 02-starter-code.qmd, final Your Turn; its DOCX.
+   Evidence: two slide examples first filter to West and then calculate the
+   maximum. The intermediate-object example, nested example, commented
+   solution, and starter instead combine both conditions in one filter().
+   The combined call calculates the maximum over its full input, not only
+   West. Both happen to return the same result here because both maxima are 5.
+   Proposed change: consistently filter to West before calculating the maximum,
+   adjusting the intermediate and nested examples and comments accordingly.
+   Add one short explanation that max() sees the rows entering that step.
+   Keep student comment-writing scaffolding. Refresh the starter DOCX after
+   approved QMD edits and visually verify it.
+   Effect: aligns the slides, starter code, and answer; no change to Exercise 2.
+   Decision: Approve. Status: Source/content implementation Verified.
+   Remaining Word visual QA is tracked separately in Chat To Do.
+
+2. Make working-directory setup actionable and accurate.
+   Targets: 02 R and Transform Data.Rmd, Files and Folders/RStudio Panes/CSV
+   import; 02-starter-code.qmd, Import CSV Files; its DOCX.
+   Evidence: the slide identifies the Files pane as the working directory;
+   the starter implies seeing the CSV there is sufficient. Browsing folders
+   in the Files pane does not necessarily change R's working directory.
+   Proposed change: describe Files as a file browser; have students save the
+   QMD and both CSVs together in the lecture folder, set that folder using
+   Files > More > Set As Working Directory, and confirm with getwd() and
+   file.exists("customer_data.csv", "store_transactions.csv") before import.
+   Retain the existing class-folder organization and installation guidance.
+   Effect: aligns setup in slides and starter; no data or assignment change.
+   Refresh the starter DOCX together with item 1 if both are approved.
+   Decision: Approve. Status: Source/content implementation Verified.
+   Remaining Word visual QA is tracked separately in Chat To Do.
+
+3. Teach the exercise's tie-breaking and clarify its time frame.
+   Targets: 02 R and Transform Data.Rmd, Live Coding and Exercise 2;
+   02-starter-code.qmd, Live Coding Exercise; Exercise-02-Solution.qmd,
+   task 3 and interpretation; both corresponding DOCX files.
+   Evidence: the exercise requires three sort keys, whereas earlier worked
+   arrange() examples show one key. Purchase activity is from Q4 2018 while
+   approx_age uses 2026; the role of these two dates is not explained.
+   Proposed change: demonstrate the Midwest example's ranking with
+   arrange(desc(recent_purchases), desc(dec_2018), customer_id) before the
+   independent South exercise. Explain that later sort keys break ties.
+   State that recent means the latest quarter available in the historical
+   dataset and approx_age is approximate age in 2026, not age at purchase.
+   Preserve 2026, the South exercise, its top-three results, and the five-point
+   rubric. Retain a blank code-along chunk in the starter; add directions,
+   not a completed homework answer. Refresh/visually check affected DOCXs.
+   Effect: clarifies slides, starter, and solution; carry the clarification
+   into the saved Canvas draft; posting item 5 remains deferred.
+   Decision: Approve. Status: Source/content implementation Verified.
+   Remaining Word visual QA is tracked separately in Chat To Do.
+
+4. Repair two unbalanced HTML centering blocks in the slide source.
+   Target: 02 R and Transform Data.Rmd, Marketing Analytics Process and
+   Instructions for Setting Up Your Own Quarto Docs.
+   Evidence: process_transform.png has no closing </center>; the Quarto
+   screenshot is followed by another <center> instead of </center>.
+   Proposed change: add the missing closing tag and correct the second one.
+   Effect: restores intended markup boundaries; no content or downstream
+   exercise changes. Verify source only; do not render slides.
+   Decision: Approve. Status: Implemented and Verified in source.
+
+INVENTORY AND VERIFICATION
+- Authoritative slides: 02 R and Transform Data.Rmd; ioslides_presentation,
+  widescreen, style.css. Existing HTML files: 02-R-and-Transform-Data.html
+  and index.html, both inspected read-only. No regeneration performed.
+- Exercise instructions: final three slides and Exercise-02-Solution.qmd.
+  No separate student exercise source exists in the lecture directory.
+- Solution/rubric: Exercise-02-Solution.qmd and Exercise-02-Solution.docx.
+- Starter: 02-starter-code.qmd and 02-starter-code.docx. Student tasks remain
+  blank where appropriate; the supplied pipeline is a comment-writing task.
+- Data: customer_data.csv and store_transactions.csv, each 10,531 rows.
+  Both have unique customer_id values and identical key sets. Transactions
+  have 169 columns: ID and 168 months, January 2005-December 2018.
+- All image references and the CSS background asset exist in Figures/.
+- No applicable AGENTS.md, lecture README, or local build scripts found.
+  Correction to initial inventory: MKTG-411 is a parent folder, and
+  02-R-and-Transform-Data has its own Git repository. Existing changes were
+  preserved. Reviewed this turn against a saved pre-edit source copy; scoped
+  git diff --check passed for all three edited source files.
+- R 4.6.1 parsed and executed all substantive code from the edited sources:
+  slide source 38 expressions, starter 25 (interactive help omitted), solution
+  5. No slides rendered. Tests verified intermediate/piped agreement, the
+  South results, and a counterexample where filtering to West first matters.
+- Resolved the initial package-access blocker by using the existing user R
+  library outside the sandbox. A temporary CRAN installation was also tried;
+  no project dependency files or global package settings were changed.
+- Independent Python CSV calculation confirms IDs 1069, 5976, 8472, each
+  with 13 recent purchases; customer 10020 ties with them. All four have
+  dec_2018 = 5, so customer_id determines which three are selected.
+- Rebuilt both DOCXs from the approved QMD sources using Quarto. All 27
+  starter code chunks and all 4 solution code chunks match the Word content.
+  Confirmed the five-point rubric and student blank code-along chunk remain
+  intact. Both new DOCXs contain no Unicode replacement characters.
+- The two Canvas descriptions were inspected via Chrome Browser extension.
+  Canvas uploaded data/starter/solution content has not been downloaded or
+  certified identical to the local copies; do not assume filenames prove it.
+
+REFERENCE FOR A FUTURE REQUESTED SLIDE RENDER
+- Existing HTML contains replacement characters in some prose. Source and
+  generated outputs remain separate; address output encoding when a slide
+  render is explicitly requested, rather than editing generated HTML.
+No slide render has been requested or performed.
+
+TECHNICAL SOURCES CONSULTED
+https://dplyr.tidyverse.org/reference/filter.html
+https://docs.posit.co/ide/user/ide/guide/code/projects.html
+The devotional attribution was also checked against the Church's October
+2025 conference materials; no change proposed.
+https://www.churchofjesuschrist.org/study/general-conference/2025/10/43soares?lang=bfi
+
+
+SEPTEMBER 8, 2026 - NEW REQUESTS RESOLVED
+
+Original user requests (preserved verbatim):
+- Move the slide on learning objectives after the spiritual thought slides on Temperance.
+- Slide 27: change to written description (filter for female customers with over $70,000 income. Move the question about putting quotes around "Female" but not gender to a separate slide after current slide 28. Adjust the start code document and slides to have exercise for filtering for female customers with over $70,000 labeled as "Your Turn!"
+- Remove slides on Temperance (Slides 3 through 5)
+- Change "loaded" to "created" on current slide 13
+
+Implementation and decisions:
+- Removed all three Temperance slides from 02 R and Transform Data.Rmd.
+- The later removal request supersedes placing the learning goals after the
+  Temperance slides. With those slides removed, Today's Learning Goals stays
+  immediately after the title, followed by Marketing Analytics Process.
+- Changed the female-customer filter prompt to a written Your Turn! exercise:
+  female customers with annual income over $70,000. The next slide is its
+  Code Solution. The question about quotes around "Female" but not gender
+  now has a separate Why the Quotes? slide immediately after that solution.
+- Added Your Turn! above the matching starter exercise, preserving the user's
+  already-blank code chunk and other edits to the starter document.
+- Changed "loaded" to "created" in the Environment bullet on RStudio Panes.
+- Rebuilt 02-starter-code.docx from the current QMD source with Quarto.
+
+Verification:
+- Inspected source diffs and verified slide order, headings, and exact wording.
+- All R code chunks in both edited sources are unchanged from the start of
+  this turn; the starter also executed successfully during its Word rebuild.
+- Verified every starter code chunk appears in the DOCX and that the new
+  Your Turn! heading precedes the blank female-customer exercise.
+- Scoped git diff --check passed. Both slide HTML files, the exercise solution
+  QMD/DOCX, and Computer Analogy.txt are unchanged this turn.
+- No slides rendered and no Canvas edits performed. The exercise remains
+  verified from the preceding update. Both Canvas tasks remain deferred.
+- Word visual layout verification remains open in Chat To Do; this completed
+  entry covers the requested edits, rebuild, and source/content checks only.
+
+
+SEPTEMBER 8, 2026 - MUTATE/SELECT EXERCISE AND STOP SLIDE COMPLETED
+
+Original user requests (preserved verbatim):
+- Add a "Your Turn!" Exercise that requires students to use mutate and select. Since we haven't learned piping, assign the object from the mutate statement, and then apply select. Make sure the exercise is in the slides and the starter code.
+- Add a slide before slide 38 (Join Data Frames) that says "Stop here! We'll do a practice live coding session if we have time."
+
+Implementation:
+- Added a Your Turn! exercise after Mutate Variables in the Rmd slides and
+  starter QMD. Students create monthly_income = income / 12, assign the
+  mutate() result to customer_data_monthly, then select customer_id, income,
+  and monthly_income from that saved object using a second statement.
+- Added the two-statement Code Solution to the slides. The starter retains
+  two blank code chunks with comments, without completed answers or pipes.
+- Changed the immediately preceding assignment example in both sources to
+  customer_data_adjusted <- mutate(customer_data, income = income / 1000)
+  so the lesson does not introduce pipes before the new exercise.
+- Added a Stop here! slide immediately before Join Data Frames, with the
+  requested text: "We'll do a practice live coding session if we have time."
+- Rebuilt 02-starter-code.docx from the updated QMD.
+
+Verification:
+- Both edited sources parse. R execution confirms the new solution computes
+  monthly income correctly, selects exactly the three requested columns,
+  retains all customer rows, and leaves customer_data unchanged.
+- Starter execution succeeded during Quarto rebuild. Verified its Word
+  content matches all source chunks and preserves the blank student tasks.
+- Inspected source diffs and verified placement of the exercise and stop slide.
+  Scoped git diff --check passed. No pipes occur in the code before joins.
+- Slides: source Verified; no slide render performed. Exercise 2 solution:
+  unchanged from its previous verification. Starter: code/content Verified.
+  Word visual QA remains open in Chat To Do; no claim of layout verification.
+- Existing slide HTML and exercise solution QMD/DOCX are unchanged. Both
+  Canvas tasks remain deferred, and no Canvas content was edited.
+
+
+SEPTEMBER 8, 2026 - PATAGONIA THOUGHT EXERCISE REPOSITIONED
+
+- Moved the existing Start With a Business Question slide, preserving its
+  entire text, to immediately after Stop here! and before Join Data Frames.
+- This supersedes its earlier placement before The tidyverse.
+- Verified the three consecutive slide headings and confirmed the only
+  slide-source change was relocating that block. No slides rendered.
+
+
+SEPTEMBER 8, 2026 - OUTCOME-BASED EXERCISES AND OPEN LIVE CODING
+
+Original user requests (preserved verbatim):
+- Add a "Your Turn!" exercise to the slides and the starter code that requires students to filter the customer_data and store_transactions data frames separately, then join them using a left join. Write the exercise in such a way that the correct type of join has to be inferred from the description. Before adding this exercise, go back and review how I changed the preceding "Your Turn" exercise to require the students to infer the correct functions, rather than explicitly telling them each step.
+- Remove the `max() uses the rows....within the West` description on slide 52. I'll discuss that with the students when they add comments on the next slide.
+- Revise the 'Live Coding' activity on slide 57 according to the updated instructions in the update-411-lecture skill. As it stands, the current live coding description is too specific. Update the starter code accordingly.
+- Revise Exercise 2 according to the updated instructions in the update-411-lecture skill. As it stands, the current Exercise 2 description is too specific. Update the solution file and rubric accordingly.
+
+Decision: Approved by the user's instruction to implement these new requests.
+Status: Verified for the requested source/content changes. Word visual QA
+remains tracked separately in Chat To Do.
+
+Completed changes:
+- Reviewed and preserved the user's preceding monthly-income exercise.
+- Added a new Your Turn! in slides and starter: prepare western-customer and
+  December-purchaser data frames separately, then produce a report retaining
+  every western customer. The prompt describes the result without naming
+  filter() or left_join(); students infer the functions and join type.
+  The slide solution uses separate statements. Starter code remains blank.
+- Removed the max() explanation from the slide and starter, preserving the
+  comment-writing activity for class discussion.
+- Made Live Coding truly open-ended: Patagonia wants 15 recently active
+  Midwest customers. Students discuss definitions, information, assumptions,
+  and consequences. Removed the prescribed procedure and solution-code slide.
+- Replaced Exercise 2's numbered operation sequence with a client-report brief.
+  The business measure and requested table make the task gradable; students
+  choose operations, sequence, and a defensible tie-breaking rule.
+- Updated the solution to present one possible approach, show the requested
+  profile fields, explain the four-way tie, and interpret the selected group.
+- Updated the five-point rubric to assess correct records, measures/profile,
+  selection/ties, interpretation, and the submitted report. It accepts valid
+  alternative approaches and any explained choice of three tied customers.
+- Rebuilt both Word handouts and aligned the saved Canvas exercise draft with
+  the final brief. No Canvas changes were made.
+
+Verification:
+- All R code in the three source files parsed and executed successfully.
+- Join exercise retained 5,095 western customers, including 2,481 without a
+  qualifying December record; an inner join retained only 2,614.
+- Exercise 2 returns 1069, 5976, and 8472 in the reference solution, all with
+  13 quarterly purchases. Customer 10020 is also tied at 13. The reference's
+  ages, incomes, credit scores, and demographic interpretation match the data.
+- Verified matching live-coding and assignment prose across relevant sources,
+  neutral starter scaffolding, the five rubric criteria, and all code/content
+  in both rebuilt DOCXs. Word page layout remains unverified.
+- Reviewed source diffs; scoped git diff --check passed. Slide HTML files are
+  byte-for-byte unchanged from this turn's start. No slide render performed.
+
+Completion audit against the revised seven-item skill:
+1. Slides: Verified in source, including learning goals and concluding exercise.
+2. Exercise: Verified source, reference results, and rubric; Word visual QA open.
+3. Starter: Verified source, execution, scaffolding, and DOCX content; visual QA open.
+4. Canvas exercise description: Needs update; explicitly deferred by user.
+5. Canvas grading note: Needs update; explicitly deferred by user.
+6. Canvas starter upload: Needs update; new checklist item not authorized by
+   this turn's four local-edit requests. Track scope/target confirmation in To Do.
+7. GitHub push: Blocked pending commit-scope clarification. main tracks
+   origin/main at https://github.com/cdbale/02-R-and-Transform-Data.git.
+   Source files contain earlier uncommitted user edits mixed with these updates;
+   no files staged, committed, or pushed during this turn.
+
+COMPLETED SEPTEMBER 8, 2026 - CANVAS PUBLICATION AND USER FILE REVIEW
+The user explicitly verified the files and authorized both Canvas description edits,
+replacement of the starter QMD, lecture HTML, and solution QMD, and committing and
+pushing all changes in this lecture repository.
+
+Final status and evidence:
+- Task 1: User-reported. The user confirmed file verification, closing the Word
+  visual-review item. No new render was performed for this publication request.
+- Task 2: Verified. Exercise 2 (course 38688, assignment 1452124) now contains
+  the complete instructions from the final three sections of the latest slide
+  source, including the South customer report, October-December 2018 activity,
+  tie choices, profile fields, interpretation, and Quarto-to-Word deliverable.
+  Read back the saved description and confirmed points, dates, file-upload
+  submission type, and published state remained unchanged.
+- Task 3: Verified. Grade Exercise 2 (assignment 1452142) retains its original
+  instructions and now has one appended paragraph: "The grading rubric is
+  found in the Exercise 2 solution." Read back the saved note and unchanged
+  points, dates, file-upload submission type, and published state.
+- Task 4: Verified. Replaced 02-starter-code.qmd in the course Files root using
+  Canvas's native Replace action. Canvas confirmed successful upload.
+- Additional authorized replacements: 02-R-and-Transform-Data.html and
+  Exercise-02-Solution.qmd, also replaced through Canvas's native Replace action.
+  Canvas confirmed all three uploads at 1:12pm. The local solution uploaded
+  contains the five-point rubric and the user's latest tie-breaking example.
+- Final module references: 02-starter-code.qmd -> file 13688635;
+  02-R-and-Transform-Data.html -> file 13688636;
+  Exercise-02-Solution.qmd -> file 13688637. Existing module items 3180603,
+  3180602, and 3180607 now reference these replacements. Starter and HTML
+  remain Published; solution remains Available after September 17 at 5pm.
+
+Original completed task text and saved drafts follow. Their earlier blocked,
+deferred, and not-posted labels are historical and are resolved by the evidence above.
+1. Visually verify both rebuilt Word handouts.
+   Files: 02-starter-code.docx and Exercise-02-Solution.docx.
+   Status: Blocked. Source updates, execution, rebuilds, and content checks
+   are complete. Page layout has not been visually verified.
+   Remaining action: render both DOCXs to page PNGs with render_docx.py,
+   inspect every page, and fix any layout issues found.
+   Blocker: LibreOffice soffice.exe is unavailable on PATH, and the configured
+   Windows dependency bundle contains no LibreOffice.
+   Skill: C:/Users/Cam/.codex/plugins/cache/openai-primary-runtime/documents/26.905.11957/skills/documents/SKILL.md
+
+2. Put the exercise instructions in Canvas Exercise 2.
+   Target: course 38688, assignment 1452124, description only.
+   Evidence: the saved assignment says "No additional details were added
+   for this assignment." The local slides now contain an outcome-based client-report brief.
+   Proposed change: paste the finalized student instructions, without the
+   solution or rubric answers. Final ready-to-paste text is below.
+   Preserve points, dates, submission settings, and publication state.
+   Effect: use the finalized exercise wording saved below.
+   Decision: Defer until later, per user. Status: Needs update; not posted.
+
+3. Add the rubric-location note to Grade Exercise 2.
+   Target: course 38688, assignment 1452142, description only.
+   Evidence: the existing description requests a graded file and comparison
+   comments but never identifies the rubric. The local exercise solution
+   contains five criteria worth one point each. Canvas modules link a file
+   named Exercise-02-Solution.qmd, available after September 17 at 5pm;
+   the contents of that uploaded copy have not been independently verified.
+   Proposed change: verify the linked solution's rubric, then append:
+   "The grading rubric is found in the Exercise 2 solution."
+   Preserve the existing instructions and all assignment settings.
+   Effect: independent of the exercise-description edit; verify the saved note
+   and avoid duplicates.
+   Decision: Defer until later, per user. Status: Needs update; not posted.
+
+4. Confirm scope and target for the new Canvas starter-upload checklist item.
+   File: 02-starter-code.qmd. Course: MKTG 411-001, course 38688.
+   Status: Needs update. The updated skill now includes uploading starter code,
+   but this turn's requests authorize local edits only. No upload performed.
+   Remaining action: obtain direction to upload, resolve the current intended
+   Canvas assignment/file attachment, and verify the replacement when saved.
+
+CANVAS EXERCISE 2 DESCRIPTION - SAVED FOR LATER, NOT POSTED
+Patagonia wants to identify the three most active customers in the `South` and understand their profiles. Use `customer_data.csv` and `store_transactions.csv` to prepare a short client report.
+
+For this report, activity means the total number of purchases in October-December 2018, the latest quarter available in these historical data.
+
+Include a table with three customers showing their customer IDs, purchase counts for that quarter, approximate ages in 2026, gender, annual income, credit scores, marital status, college-degree status, and region.
+
+If customers tie at the cutoff, choose three of the tied customers and explain your selection rule. Different defensible tie-breaking choices are acceptable. Decide which operations and sequence will produce the report.
+
+Briefly describe the selected customers' demographic and financial profiles. Does one customer stand out in purchase activity? Explain one limitation of using this activity measure for the client's decision.
+
+Submit a Word document rendered from Quarto containing your code, customer table, and written interpretation. Explain your reasoning so another analyst can follow your approach.
+
+CANVAS GRADE EXERCISE 2 NOTE - SAVED FOR LATER, NOT POSTED
+"The grading rubric is found in the Exercise 2 solution."
+Verify the linked Canvas solution contains the rubric before posting.
+

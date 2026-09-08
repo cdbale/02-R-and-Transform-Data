@@ -7,32 +7,22 @@ output:
     css: style.css
 ---
 
-## "[Be] Temperate in All Things"
+## Today's Learning Goals
 
-- "And no one can assist in this work except he shall be humble and full of love, having faith, hope, and charity, being temperate in all things, whatsoever shall be entrusted to his care."
+By the end of class, you should be able to:
 
-D&C 12:8
-
-## What Does It Mean to be Temperate?
-
-## What Does It Mean to be Temperate?
-
-- Our desires and emotions are shaped by wisdom and calmness
-- We are humble and full of love
-- We restrain anger, nurture patience, and treat others with tolerance, respect, and dignity
-
-"Adorned with the Virtue of Temperance", Elder Ulisses Soares, Oct. 2025 General Conference.
+- Explain how files, working directories, and R objects relate.
+- Import and inspect a CSV file.
+- Transform rows and columns with core {dplyr} verbs.
+- Join two data frames and connect steps with `|>`.
 
 ## Marketing Analytics Process
 
 <center>
 ![](Figures/process_transform.png){width=900px}
+</center>
 
-## Motivating Example
-
-Imagine we are consulting Patagonia. They provide a messy spreadsheet exported from the CRM (Customer Relationship Management) system. The data includes names, locations, and demographic details for thousands of customers. They also send you a huge file containing the transaction history for all the customers, but the only thing the two files have in common is the customer IDs. You are asked to find the 100 longest-standing customers, and figure out which 5 states brought in the most revenue last year. How would you do this? 
-
-##  Let's Get Set Up With R/RStudio
+## Let's Get Set Up With R and RStudio
 
 <center>
 ![](Figures/r_rstudio.png){width=900px}
@@ -40,7 +30,7 @@ Imagine we are consulting Patagonia. They provide a messy spreadsheet exported f
 
 ## Computer Orientation
 
-R's performance is primarily based on your *available* **RAM** and secondarily on your **CPU**. In RStudio, the Environment uses RAM while Files gives you access to the **hard drive**.
+Your **RAM** limits how much data R can hold in memory, while your **CPU** affects how quickly many calculations run. In RStudio, the Environment shows objects currently in memory; the Files pane shows files stored on disk.
 
 <center>
 ![](Figures/computer_specs.png){width="850px"}
@@ -62,7 +52,7 @@ RAM (i.e., random access memory) is used for:
 
 A hard drive is composed of **files** (e.g., .csv, .rds, .R, .qmd, .exe) organized into **folders**/**directories**. It is critical to organize your work.
 
-Every file on your computer has a kind of address called a **file path**.
+Every file on your computer has a kind of address called a **file path**. A relative path such as `"customer_data.csv"` starts from the current working directory.
 
 ## A Word About Downloading and Organizing Files
 
@@ -70,11 +60,11 @@ One of the most important skills you should strive to develop is the ability to
 organize and manage files! 
 
 - Create a MKTG-411 folder on your computer.
-- Every file you download for this class should live in this folder, organized by **Unit** and **lecture** 
+- Every file you download for this class should live in this folder, organized by **unit** and **lecture**.
 - **NEVER** work out of your Downloads folder.
 - Download the data for the first Unit, and the items for Lectures 1 and 2 from Canvas, and move them **to their own folders** inside your MKTG-411 folder.
 
-## R/RStudio Orientation
+## R and RStudio Orientation
 
 - Console: Where you run code and perform calculations.
 
@@ -92,9 +82,11 @@ run code in chunks from the source window.
 print(2 * (18 - 7))
 ```
 
-- Environment: A snapshot of the data, variables, and functions you've loaded.
+## RStudio Panes
+
+- Environment: A snapshot of the data, variables, and functions you've created.
 - Help: Look up documentation including cheatsheets.
-- Files: The **working directory** for your project.
+- Files: Browse files and folders on disk. Browsing a folder does not change R's **working directory**.
 
 ## RStudio Tools > Global Options
 
@@ -112,7 +104,7 @@ print(2 * (18 - 7))
 ![](Figures/functions.png){width=650px}
 </center>
 
-We import, wrangle, visualize, and model data using **functions**. Functions are composed of **arguments** that tell the function how to operate.
+We import, wrangle, visualize, and model data using **functions**. The values inside the parentheses are **arguments** that tell the function what to use and what to do.
 
 - Using a function is referred to as a “call” or a “function call.”
 - Don’t forget you have Help.
@@ -121,8 +113,19 @@ We import, wrangle, visualize, and model data using **functions**. Functions are
 
 The **tidyverse** is a collection of R packages that share common philosophies and are designed to work together. An **R package** is a collection of functions, documentation, and sometimes data.
 
-```{r}
+```{r, message=FALSE}
 library(tidyverse)
+```
+
+## Check Your Working Directory
+
+- Save your Quarto document and both CSV files together in the lecture folder.
+- Browse to that folder in **Files**, then choose **More > Set As Working Directory**.
+- Check the path and confirm that both files return `TRUE` before importing.
+
+```{r, eval=FALSE}
+getwd()
+file.exists("customer_data.csv", "store_transactions.csv")
 ```
 
 ## Import CSV Files
@@ -182,17 +185,19 @@ filter(customer_data, college_degree == "Yes")
 filter(customer_data, region != "West")
 ```
 
----
+## Your Turn!
 
-How would we filter by `gender == "Female"` and `income > 70000`?
+Write code that filters to only display female customers with an annual income over $70,000.
 
-Why are we putting quotes around `"Female"` but not `gender`?
-
----
+## Code Solution
 
 ```{r}
 filter(customer_data, gender == "Female", income > 70000)
 ```
+
+## Why the Quotes?
+
+Why are we putting quotes around `"Female"` but not `gender`?
 
 ## Your Turn!
 
@@ -241,6 +246,12 @@ arrange(customer_data, desc(birth_year))
 Sometimes we only care to **keep certain variables**, especially when working with a large dataset.
 
 ```{r}
+select(customer_data, region, review_text)
+```
+
+## Selecting a Range of Variables
+
+```{r}
 select(customer_data, region:review_text)
 ```
 
@@ -262,26 +273,58 @@ mutate(customer_data, income = income / 1000)
 
 Two important things to remember:
 
-1. We can **overwrite** variables in a data frame as well as objects if we use the same name.
-2. Good variable and object names only use lowercase letters, numbers, and `_`. Most importantly, they should be descriptive and easy to identify. A poor variable name might be something like "Variable2" or "x", whereas a good variable might be 'transaction_history' or 'cleaned_crm_data'.
+1. The function call above displays a changed result, but it does not change the stored `customer_data` object.
+2. To keep a result, assign it a clear name.
+
+```{r}
+customer_data_adjusted <- mutate(customer_data, income = income / 1000)
+```
+
+Good object and variable names use lowercase letters, numbers, and `_`. Prefer descriptive names such as `transaction_history` or `cleaned_crm_data` over names such as `x` or `data2`.
+
+## Your Turn!
+
+Create a monthly-income view of the customer data using two separate statements.
+
+1. Based on `customer_data`, create a new variable called `monthly_income` (the customers' monthly income). Assign the result to `customer_data_monthly`.
+2. Select only `customer_id`, `income`, and `monthly_income` from the `customer_data_monthly` dataframe.
+
+## Code Solution
+
+```{r}
+customer_data_monthly <- mutate(customer_data, monthly_income = income / 12)
+select(customer_data_monthly, customer_id, income, monthly_income)
+```
+
+## Stop here!
+
+We'll do a practice live coding session if we have time.
+
+## Start With a Business Question
+
+Imagine we are consulting Patagonia. They provide a spreadsheet exported from the CRM (Customer Relationship Management) system. It contains locations and demographic details for thousands of customers. They also send a large file with monthly purchase counts, but the only field shared by the two files is `customer_id`.
+
+You are asked to identify recently active customers in a target region and describe who they are. How would you connect, filter, and organize the data?
 
 ## Join Data Frames
 
-A common variable (e.g., a customer ID) allows us to **join** two data frames.
+A shared key (e.g., a customer ID) allows us to **join** two data frames. Here, `customer_id` identifies the matching customer in each file.
 
 ```{r}
 store_transactions <- read_csv("store_transactions.csv", show_col_types = FALSE)
 ```
 
----
+## Transaction Data Spans 14 Years
 
-```{r}
+The file contains 10,531 customers and 169 columns: one customer ID plus 168 monthly purchase-count columns from January 2005 through December 2018.
+
+```{r, results='hide'}
 glimpse(store_transactions)
 ```
 
 ---
 
-A **left join** keeps all rows in the "left" or first data frame that you list, and all columns from both data frames. A left join is a good "default" join to start with.
+A **left join** keeps all rows in the "left" or first data frame that you list, and all columns from both data frames.
 
 ```{r}
 left_join(customer_data, store_transactions, join_by(customer_id))
@@ -307,19 +350,40 @@ inner_join(customer_data, store_transactions, join_by(customer_id))
 ![](Figures/inner_join.gif){width=500px}
 </center>
 
+## Your Turn!
+
+Patagonia wants a report on customers in the `West` and their December 2018 activity.
+
+Prepare two smaller data frames: one containing only western customers from `customer_data`, and one containing only records with at least one December 2018 purchase from `store_transactions`.
+
+Use those two data frames to produce a joint data frame containing **every western customer** and any matching record from the second data frame.
+
+## Code Solution
+
+```{r, eval=FALSE}
+west_customers <- filter(customer_data, region == "West")
+december_activity <- filter(store_transactions, dec_2018 > 0)
+west_customer_report <- left_join(west_customers, december_activity,
+                                 join_by(customer_id))
+west_customer_report
+```
+
+The report keeps every western customer. Customers without a qualifying record have `NA` in the transaction columns; an inner join would leave them out.
+
 ## Consecutive Function Calls
 
 We typically want to perform many consecutive function calls. You might be tempted to do the following. **Don't do this!**
 
 ```{r}
 crm_data_2 <- left_join(customer_data, store_transactions, join_by(customer_id))
-crm_data_3 <- filter(crm_data_2, region == "West", feb_2005 == max(feb_2005))
-crm_data_4 <- mutate(crm_data_3, age = 2022 - birth_year)
-crm_data_5 <- select(crm_data_4, age, feb_2005)
-crm_data_6 <- arrange(crm_data_5, desc(age))
-crm_data_7 <- slice(crm_data_6, 1)
+crm_data_3 <- filter(crm_data_2, region == "West")
+crm_data_4 <- filter(crm_data_3, feb_2005 == max(feb_2005))
+crm_data_5 <- mutate(crm_data_4, approx_age = 2026 - birth_year)
+crm_data_6 <- select(crm_data_5, approx_age, feb_2005)
+crm_data_7 <- arrange(crm_data_6, desc(approx_age))
+crm_data_8 <- slice(crm_data_7, 1)
 
-crm_data_7
+crm_data_8
 ```
 
 
@@ -333,13 +397,14 @@ slice(
     select(
       mutate(
         filter(
-          left_join(
-            customer_data, store_transactions, join_by(customer_id)), 
-          region == "West", feb_2005 == max(feb_2005)
+          filter(
+            left_join(customer_data, store_transactions, join_by(customer_id)),
+            region == "West"),
+          feb_2005 == max(feb_2005)
         ), 
-      age = 2022 - birth_year), 
-    age, feb_2005), 
-  desc(age)), 
+      approx_age = 2026 - birth_year),
+    approx_age, feb_2005),
+  desc(approx_age)),
 1)
 ```
 
@@ -365,10 +430,10 @@ customer_data |>
 
 ---
 
-- So what does the `|>`, often known as the 'pipe operator' do?
+- So what does `|>`, often known as the pipe operator, do?
 - What's the deal with the indented line after the `|>`?
 - Let's rewrite our terrible code using the `|>`.
-- The shortcut to type the pipe operator is ctrl + shift + m (or command for mac)
+- The shortcut to type the pipe operator is Ctrl + Shift + M (or Cmd + Shift + M on a Mac).
 
 ---
 
@@ -380,9 +445,9 @@ customer_data |>
   left_join(store_transactions, join_by(customer_id)) |> 
   filter(region == "West") |>
   filter(feb_2005 == max(feb_2005)) |> 
-  mutate(age = 2026 - birth_year) |> 
-  select(age, feb_2005) |> 
-  arrange(desc(age)) |> 
+  mutate(approx_age = 2026 - birth_year) |>
+  select(approx_age, feb_2005) |>
+  arrange(desc(approx_age)) |>
   slice(1)
 ```
 
@@ -396,9 +461,9 @@ customer_data |>
   left_join(store_transactions, join_by(customer_id)) |> 
   filter(region == "West") |>
   filter(feb_2005 == max(feb_2005)) |> 
-  mutate(age = 2026 - birth_year) |> 
-  select(age, feb_2005) |> 
-  arrange(desc(age)) |> 
+  mutate(approx_age = 2026 - birth_year) |>
+  select(approx_age, feb_2005) |>
+  arrange(desc(approx_age)) |>
   slice(1)
 ```
 
@@ -410,14 +475,15 @@ customer_data |>
   # join the transactions to the customer data using customer IDs
   left_join(store_transactions, join_by(customer_id)) |> 
   # filter to only customers from the West region
-  # filter to just the ones who had the most transactions in February 2005
-  filter(region == "West", feb_2005 == max(feb_2005))|> 
-  # create a new column for age
-  mutate(age = 2026 - birth_year) |>  
-  # select only the age and February 2005 transactions
-  select(age, feb_2005) |> 
+  filter(region == "West") |>
+  # keep those with the most February 2005 transactions within the West
+  filter(feb_2005 == max(feb_2005)) |>
+  # create approximate age in 2026, not age at the time of purchase
+  mutate(approx_age = 2026 - birth_year) |>
+  # select only the approximate age and February 2005 purchases
+  select(approx_age, feb_2005) |>
   # arrange the rows from oldest to youngest
-  arrange(desc(age)) |> 
+  arrange(desc(approx_age)) |>
   # display only the first row
   slice(1)
 ```
@@ -432,13 +498,17 @@ To create one, click File > New File > Quarto Document. This box should pop up:
 
 <center>
 ![](Figures/quarto.png){width=500px}
-<center>
+</center>
 
 Just add the document title, your name, and select Word!
 
 ## Live Coding
 
-Now that we've built up a lot of skills, let's try applying them together. Recall that you are consulting for Patagonia. Imagine the company wants a list of the 15 most valuable customers in the Midwest region. How should we define "valuable," and how would we come up with that list?
+Patagonia is planning a customer outreach campaign and wants a list of 15 recently active customers in the Midwest.
+
+- What should "recently active" mean for this campaign?
+- What information would help us build a useful list?
+- How could different definitions or assumptions change who appears on the list?
 
 ## Wrapping Up
 
@@ -458,16 +528,20 @@ Now that we've built up a lot of skills, let's try applying them together. Recal
 
 *Artwork by @allison_horst*
 
-## Exercise 2
+## Exercise 2: Active Customers in the South
 
-In RStudio, create a new Quarto document, load the tidyverse, and import the data. Don't forget to ensure that a copy of your data files is in your working directory! Then, using the `|>` in consecutive lines of code, find the customers who have spent the most recently by doing the following.
+Patagonia wants to identify the three most active customers in the `South` and understand their profiles. Use `customer_data.csv` and `store_transactions.csv` to prepare a short client report.
 
-1. Join the `customer_data` and `store_transactions` data.
-2. Only keep customers in the `South`.
-3. Create a new variable `age` using `2026 - birth_year`.
-4. Only keep the variables `age`, `gender`, `income`, `credit`, `married`, `college_degree`, `region`, and `dec_2018`.
-5. Arrange the data in descending order based on `dec_2018` transactions.
-6. Keep the top 3 rows of data.
-7. Who appears to be purchasing the most items for that month in the South?
-8. Render the Quarto document as a Word Doc and upload to Canvas.
+For this report, activity means the total number of purchases in October-December 2018, the latest quarter available in these historical data.
 
+## Exercise 2: The Client Report
+
+Include a table with three customers showing their customer IDs, purchase counts for that quarter, approximate ages in 2026, gender, annual income, credit scores, marital status, college-degree status, and region.
+
+If customers tie at the cutoff, choose three of the tied customers and explain your selection rule. Different defensible tie-breaking choices are acceptable. Decide which operations and sequence will produce the report.
+
+## Exercise 2: Interpret and Submit
+
+Briefly describe the selected customers' demographic and financial profiles. Does one customer stand out in purchase activity? Explain one limitation of using this activity measure for the client's decision.
+
+Submit a Word document rendered from Quarto containing your code, customer table, and written interpretation. Explain your reasoning so another analyst can follow your approach.

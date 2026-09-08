@@ -2,39 +2,40 @@
 title: "Exercise 02 Solution"
 format: docx
 editor: visual
+execute:
+  warning: false
+  message: false
 ---
 
 ## Exercise 2
 
-In RStudio, create a new Quarto document, load the tidyverse, and import the data. Don't forget to ensure that a copy of your data files is in your working directory! Then, using the `|>` in consecutive lines of code, find the customers who have spent the most recently by doing the following.
+Patagonia wants to identify the three most active customers in the `South` and understand their profiles. Use `customer_data.csv` and `store_transactions.csv` to prepare a short client report.
 
-1.  Join the `customer_data` and `store_transactions` data.
+For this report, activity means the total number of purchases in October-December 2018, the latest quarter available in these historical data.
 
-2.  Only keep customers in the `South`.
+Include a table with three customers showing their customer IDs, purchase counts for that quarter, approximate ages in 2026, gender, annual income, credit scores, marital status, college-degree status, and region.
 
-3.  Create a new variable `age` using `2026 - birth_year`.
+If customers tie at the cutoff, choose three of the tied customers and explain your selection rule. Different defensible tie-breaking choices are acceptable. Decide which operations and sequence will produce the report.
 
-4.  Only keep the variables `age`, `gender`, `income`, `credit`, `married`, `college_degree`, `region`, and `dec_2018`.
+Briefly describe the selected customers' demographic and financial profiles. Does one customer stand out in purchase activity? Explain one limitation of using this activity measure for the client's decision.
 
-5.  Arrange the data in descending order based on `dec_2018` transactions.
+Submit a Word document rendered from Quarto containing your code, customer table, and written interpretation. Explain your reasoning so another analyst can follow your approach.
 
-6.  Keep the top 3 rows of data.
-
-7.  Who appears to be purchasing the most items for that month in the South?
-
-8.  Render the Quarto document as a Word Doc and upload to Canvas.
+## Grading Rubric
 
 Five points total, one point each for:
 
-\- Loading the tidyverse.
+- **Customer records:** Uses the supplied data to report customers in the South with correctly matched customer and transaction information.
+- **Measures and profile:** Correctly reports October-December 2018 purchase counts and the requested profile fields, including approximate age in 2026.
+- **Selection and ties:** Reports three customers with the highest activity and explains a defensible rule for resolving the tie at the cutoff.
+- **Interpretation:** Describes the selected customers' profiles, addresses whether anyone stands out in activity, and explains a relevant limitation.
+- **Deliverable:** Submits a Word document rendered from Quarto with readable code, the customer table, and the written interpretation.
 
-\- Importing customer_data and store_transactions.
+Award credit for correct results and sound reasoning, not for matching the example's function sequence, object names, or tie-breaking rule. Any three of the four customers tied for the highest activity are acceptable when the selection rule is explained.
 
-\- Following the instructions using consecutive lines of code.
+## One Possible Solution
 
-\- Making a reasonable attempt to follow all of the steps and answer the question.
-
-\- Submitting a rendered Word doc.
+This example resolves ties by December purchase count and then November purchase count (i.e., the customers that were active in the more recent months in the quarter).
 
 ```{r}
 
@@ -42,6 +43,8 @@ Five points total, one point each for:
 
 library(tidyverse)
 ```
+
+{{< pagebreak >}}
 
 ```{r}
 
@@ -53,15 +56,38 @@ store_transactions <- read_csv("store_transactions.csv", show_col_types = FALSE)
 
 ```{r}
 
-# Find the customers who have spent the most recently.
+# Identify recently active customers using a transparent three-month proxy.
 
-customer_data |> 
+recently_active_customers <- customer_data |>
   left_join(store_transactions, join_by(customer_id)) |> 
   filter(region == "South") |> 
-  mutate(age = 2026 - birth_year) |> 
-  select(age, gender:region, dec_2018) |> 
-  arrange(desc(dec_2018)) |> 
+  mutate(
+    approx_age = 2026 - birth_year,
+    recent_purchases = oct_2018 + nov_2018 + dec_2018
+  ) |>
+  arrange(desc(recent_purchases), desc(dec_2018), desc(nov_2018)) |>
+  select(
+    customer_id, approx_age, gender, income, credit, married,
+    college_degree, region, recent_purchases
+  ) |>
   slice(1:3)
 ```
 
-Customers in the South who purchased the most in December 2018 appear to be mostly high income, married individuals with college degrees.
+```{r}
+
+# Display the report in two compact views with customer IDs in both.
+
+recently_active_customers |>
+  select(customer_id, recent_purchases, approx_age, income, credit)
+
+recently_active_customers |>
+  select(customer_id, gender, married, college_degree, region)
+```
+
+The example returns customer IDs 8472, 1069, and 5976. Each made 13 purchases during the final three months of 2018. All made five purchases in December, so we use the descending rank order of November purchases to determine which three appear. In other words, we determine the final ranking by how active the customers were in the most recent months, not just the quarter overall.
+
+The selected customers have approximate ages of 47, 43, and 55 in 2026, with annual incomes from \$71,000 to \$197,000 and credit scores of about 674 to 747. Two are male and one has gender recorded as Other; two are married and one has a college degree. These describe the selected customers, not a representative profile of everyone in the South.
+
+No single customer stands out in purchase activity: all three have the same quarterly total. Purchase count does not measure revenue, profit, or lifetime value, and these historical transactions cannot establish who is active today.
+
+The activity measure describes the final quarter of 2018. The separate `approx_age` field estimates age in 2026; it does not describe the customers' ages when those purchases occurred.

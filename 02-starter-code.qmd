@@ -1,18 +1,22 @@
 ---
-title: "02 R and Transform Data Starter Code"
+title: "02 R and Transforming Data: Starter Code"
 format: docx
 editor: visual
+execute:
+  warning: false
+  message: false
+  output: false
 ---
 
 ## Lecture 02 Notes
 
-### R/R Studio Orientation
+### R and RStudio Orientation
 
 ```{r}
 
 # Try copying and running this code in the Console.
 
-5+5
+5 + 5
 ```
 
 ```{r}
@@ -39,8 +43,9 @@ variable <- 100
 ```
 
 ```{r}
+#| eval: false
 
-# Seek Help with the 'mean' function.
+# Seek help with the mean() function.
 
 help(mean)
 ```
@@ -49,20 +54,26 @@ help(mean)
 
 ```{r}
 
-# Before runnning this code, you need to install the tidyverse package. Click Tools at the top of the screen, then Install Packages, and enter tidyverse. Then load the package here.
+# Before running this code for the first time, install the tidyverse package
 
-# OR
-
-#install.packages('tidyverse')
+# install.packages("tidyverse")
 
 library(tidyverse)
 ```
 
 ### Import CSV Files
 
+Save this Quarto document and both CSV files together in the lecture folder. In the Files pane, browse to that folder and choose **More \> Set As Working Directory**. Browsing alone does not change R's working directory.
+
 ```{r}
 
-# Ensure that you're in the right working directory (folder). You should see customer_data.csv in your Files tab on the right.
+# Check the path and confirm that both files return TRUE before importing.
+
+getwd()
+file.exists("customer_data.csv", "store_transactions.csv")
+```
+
+```{r}
 
 customer_data <- read_csv("customer_data.csv", show_col_types = FALSE)
 ```
@@ -99,12 +110,12 @@ filter(customer_data, college_degree == "Yes")
 filter(customer_data, region != "West")
 ```
 
+### Your Turn!
+
 ```{r}
 
-# This code displays only female customers with an annual income of over $70,000.
+# Write code that displays only female customers with an annual income of over $70,000.
 
-
-filter(customer_data, gender == "Female", income > 70000)
 ```
 
 ### Your Turn!
@@ -144,6 +155,12 @@ arrange(customer_data, desc(birth_year))
 ### Select Variables
 
 ```{r}
+# this code selects two variables, region and review text
+
+select(customer_data, region, review_text)
+```
+
+```{r}
 
 # This code selects all the columns from region to review_text.
 
@@ -159,13 +176,32 @@ select(customer_data, region:review_text)
 mutate(customer_data, income = income / 1000)
 ```
 
+```{r}
+
+# The code above displays a changed result but does not change customer_data.
+# Assign the result if you want to keep it.
+
+customer_data_adjusted <- mutate(customer_data, income = income / 1000)
+```
+
+## Your Turn!
+
+Create a monthly-income view of the customer data using two separate statements.
+
+1.  Based on `customer_data`, create a new variable called `monthly_income` (the customers' monthly income). Assign the result to `customer_data_monthly`.
+2.  Select only `customer_id`, `income`, and `monthly_income` from the `customer_data_monthly` dataframe.
+
+```{r}
+
+```
+
 ### Join Data Frames
 
 ```{r}
 
 # This will read in the transaction data (again, ensure that you're in the right working directory)
 
-store_transactions <- read_csv("store_transactions.csv")
+store_transactions <- read_csv("store_transactions.csv", show_col_types = FALSE)
 ```
 
 ```{r}
@@ -173,14 +209,32 @@ store_transactions <- read_csv("store_transactions.csv")
 glimpse(store_transactions)
 ```
 
+A **left join** keeps all rows in the "left" or first data frame that you list, and all columns from both data frames.
+
 ```{r}
 
 left_join(customer_data, store_transactions, join_by(customer_id))
 ```
 
+An **inner join** keeps rows that have matching IDs along with all columns from both data frames.
+
 ```{r}
 
 inner_join(customer_data, store_transactions, join_by(customer_id))
+```
+
+## Your Turn!
+
+Patagonia wants a report on customers in the `West` and their December 2018 activity.
+
+Prepare two smaller data frames: one containing only western customers from `customer_data`, and one containing only records with at least one December 2018 purchase from `store_transactions`.
+
+Use those two data frames to produce a joint data frame containing **every western customer** and any matching record from the second data frame.
+
+```{r}
+
+# Write your code here.
+
 ```
 
 ### Consecutive Lines of Code
@@ -195,24 +249,31 @@ customer_data |>
 
 ### Your Turn!
 
+Here, `approx_age` is approximate age in 2026, not age at the time of purchase.
+
 ```{r}
 
 # Add comments between each line to explain what this code is doing!
 
 customer_data |> 
   left_join(store_transactions, join_by(customer_id)) |> 
-  filter(region == "West", feb_2005 == max(feb_2005)) |> 
-  mutate(age = 2026 - birth_year) |> 
-  select(age, feb_2005) |> 
-  arrange(desc(age)) |> 
+  filter(region == "West") |>
+  filter(feb_2005 == max(feb_2005)) |>
+  mutate(approx_age = 2026 - birth_year) |>
+  select(approx_age, feb_2005) |>
+  arrange(desc(approx_age)) |>
   slice(1)
 ```
 
 ### Live Coding Exercise
 
-Now that we've built up a lot of skills, let's try applying them together. Recall that you are an analyst for Patagonia. Imagine your manager wants a list of the 15 most valuable customers in the Midwest region. How should we define "valuable," and how would we come up with that list?
+Patagonia is planning a customer outreach campaign and wants a list of 15 recently active customers in the Midwest.
+
+- What should "recently active" mean for this campaign?
+- What information would help us build a useful list?
+- How could different definitions or assumptions change who appears on the list?
 
 ```{r}
 
-# take notes and code along here
+# Take notes and code along here.
 ```
