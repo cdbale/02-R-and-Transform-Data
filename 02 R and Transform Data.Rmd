@@ -7,6 +7,30 @@ output:
     css: style.css
 ---
 
+## Remember, Remember
+
+> “O remember, remember, my son Helaman, how strict are the commandments of God. And he said: If ye will keep my commandments ye shall prosper in the land—but if ye keep not his commandments ye shall be cut off from his presence.”
+
+— [Alma 37:13](https://www.churchofjesuschrist.org/study/scriptures/bofm/alma/37?lang=eng&id=p13#p13)
+
+Selected in Elder Chi Hong (Sam) Wong's [“Remember, Remember,” April 2026 general conference](https://www.churchofjesuschrist.org/study/general-conference/2026/04/52wong?lang=eng).
+
+## The Kite and the String
+
+In President Dallin H. Oaks's analogy, a boy wants to cut his kite's string, believing this will let it fly higher.
+
+> “His wise father counseled no, explaining that the string is what holds the kite in place against mortal winds. If we lose our hold on the string, the kite will not rise higher. It will be carried about by these winds and will inevitably crash to the earth.”
+
+— President Dallin H. Oaks, quoted in Elder Chi Hong (Sam) Wong's [“Remember, Remember,” April 2026 general conference](https://www.churchofjesuschrist.org/study/general-conference/2026/04/52wong?lang=eng).
+
+## Forces on a Kite
+
+<center>
+<img src="Figures/forces-on-a-kite.png" alt="Diagram showing lift, drag, weight, tension, and airflow acting on a kite." style="height: 430px; width: auto;" />
+</center>
+
+<div style="font-size: 16px;">Image: © 2021 Let's Talk Science, via [Fly360](https://fly360.co.in/the-physics-of-kite-flying-understanding-the-forces-and-design-for-stable-flight/).</div>
+
 ## Today's Learning Goals
 
 By the end of class, you should be able to:
